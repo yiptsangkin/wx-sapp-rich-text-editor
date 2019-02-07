@@ -1,0 +1,152 @@
+<view wx:if="{{ !isScrollView && !containHeight  }}" class="rich-editor-wrp" style="{{ containWidth ? 'width: ' + containWidth + drawUnit  + ';' : '' }}">
+  <!-- 主要内容 -->
+  <view class="main-editor-ctx">
+    <block wx:for="{{ innerInitData }}" wx:key="{{ index }}">
+      <!-- 图片类型 -->
+      <block wx:if="{{ item.type === 'image' }}">
+        <!-- 完成编辑 -->
+        <block wx:if="{{ !item.isEditing }}">
+          <view class="common-contain image-contain">
+            <view class="white-mask" wx:if="{{ !item.isEditing && globalEditing || (curIndex !== -1 && curIndex !== index) }}"></view>
+            <view class="up-ctx">
+              <image src="{{ item.src }}" mode="{{ item.mode ? item.mode : 'widthFix' }}" style="{{ item.width ? 'width: ' + item.width + 'rpx;' : 'width: auto;' }}{{ item.height ? 'height: ' + item.height + 'rpx;' : 'height: auto' }}"></image>
+            </view>
+            <view class="down-ctx">
+              <input bindinput='changeInput' data-index="{{ index }}" value='{{ item.desc }}' placeholder='请输入图片描述'></input>
+              <view class="op-btn-wrp op-style">
+                <view class='op-btn' bindtap='newItem' data-index="{{ index }}">
+                  新增
+                  <view class="float-ctl" wx:if="{{ index === newCurIndex }}">
+                    <view class="float-tri"></view>
+                    <view data-type="{{ item.type }}" wx:for="{{ supportType }}" wx:key="{{ index }}" wx:for-index="key" bindtap="triggerEvent" data-index="{{ index }}">
+                      插入{{ item.name }}
+                    </view>
+                  </view>
+                </view>
+                <view class='op-btn' bindtap='moveUp' data-index="{{ index }}" wx:if="{{ index !== 0 }}">上移</view>
+                <view class='op-btn' bindtap='moveDown' data-index="{{ index }}" wx:if="{{ index !== innerInitData.length - 1 }}">下移</view>
+                <view class='op-btn' bindtap="deleteBlock" data-index="{{ index }}">删除</view>
+              </view>
+            </view>
+          </view>
+        </block>
+        <!-- 编辑中 -->
+        <block wx:else>
+          <view class="common-contain image-contain">
+            <view class="white-mask" wx:if="{{ !item.isEditing && globalEditing || (curIndex !== -1 && curIndex !== index) }}"></view>
+            <view class="up-ctx" bindtap='tapEvent' data-index="{{ index }}" data-type="image">
+              <image wx:if="{{ item.src }}" src="{{ item.src }}" mode="{{ item.mode ? item.mode : 'widthFix' }}" style="{{ item.width ? 'width: ' + item.width + 'rpx;' : 'width: auto;' }}{{ item.height ? 'height: ' + item.height + 'rpx;' : 'height: auto;' }}"></image>
+              <image wx:else class="add-img" src='../../assets/icon/addimg.png'></image>
+            </view>
+            <view class="down-ctx">
+              <input bindinput='changeInput' data-index="{{ index }}" value='{{ item.desc }}' placeholder='请输入图片描述'></input>
+              <view class="op-btn-wrp op-style">
+                <view class='op-btn' bindtap='deleteBlock' data-index="{{ index }}">取消</view>
+                <view class='op-btn' bindtap='saveBlock' data-index="{{ index }}">保存</view>
+              </view>
+            </view>
+          </view>
+        </block>
+      </block>
+      <!-- 文本类型 -->
+      <block wx:if="{{ item.type === 'text' }}">
+        <!-- 完成编辑 -->
+        <block wx:if="{{ !item.isEditing }}">
+          <view class="common-contain text-contain" style="{{ item.width ? 'width: ' + item.width + 'rpx;' : '' }}{{ item.color ? 'color: ' + item.color + ';' : 'color: #33333;' }}{{ item.size ? 'font-size:q ' + item.size + 'rpx;' : 'font-size: 28rpx;' }}">
+            <view class="white-mask" wx:if="{{ !item.isEditing && globalEditing || (curIndex !== -1 && curIndex !== index) }}"></view>
+            <view class="up-ctx">
+              {{ item.desc }}
+            </view>
+            <view class="down-ctx">
+              <view class="op-btn-wrp nt op-style">
+                <view class='op-btn' bindtap='newItem' data-index="{{ index }}">
+                  新增
+                  <view class="float-ctl" wx:if="{{ index === newCurIndex }}">
+                    <view class="float-tri"></view>
+                    <view data-type="{{ item.type }}" wx:for="{{ supportType }}" wx:key="{{ index }}" wx:for-index="key" bindtap="triggerEvent" data-index="{{ index }}">
+                      插入{{ item.name }}
+                    </view>
+                  </view>
+                </view>
+                <view class='op-btn' bindtap='moveUp' data-index="{{ index }}" wx:if="{{ index !== 0 }}">上移</view>
+                <view class='op-btn' bindtap='moveDown' data-index="{{ index }}" wx:if="{{ index !== innerInitData.length - 1 }}">下移</view>
+                <view class='op-btn' bindtap='deleteBlock' data-index="{{ index }}">删除</view>
+              </view>
+            </view>
+          </view>
+        </block>
+        <block wx:else>
+          <view class="common-contain text-contain">
+            <view class="white-mask" wx:if="{{ !item.isEditing && globalEditing || (curIndex !== -1 && curIndex !== index) }}"></view>
+            <view class="up-ctx">
+              <textarea bindinput='changeInput' data-index="{{ index }}" auto-height class="common-edit-contain" placeholder='请输入文本内容'>
+              </textarea>
+            </view>
+            <view class="down-ctx">
+              <view class="op-btn-wrp nt op-style">
+                <view class='op-btn' bindtap='deleteBlock' data-index="{{ index }}">取消</view>
+                <view class='op-btn' bindtap='saveBlock' data-index="{{ index }}">保存</view>
+              </view>
+            </view>
+          </view>
+        </block>
+        <!-- 编辑中 -->
+      </block>
+      <!-- 视频类型 -->
+      <block wx:if="{{ item.type === 'video' }}">
+        <!-- 完成编辑 -->
+        <block wx:if="{{ !item.isEditing }}">
+          <view class="common-contain video-contain" style="{{ item.width ? 'width: ' + item.width + 'rpx;' : '' }}{{ item.height ? 'height: ' + item.height + 'rpx;' : '' }}">
+            <view class="white-mask" wx:if="{{ !item.isEditing && globalEditing || (curIndex !== -1 && curIndex !== index) }}"></view>
+            <view class="up-ctx">
+              <video src="{{ item.src }}" style="{{ item.width ? 'width: ' + item.width + 'rpx;' : '' }}{{ item.height ? 'height: ' + item.height + 'rpx;' : '' }}"></video>
+            </view>
+            <view class="down-ctx">
+              <input bindinput='changeInput' data-index="{{ index }}" value='{{ item.desc }}' placeholder='请输入视频描述'></input>
+              <view class="op-btn-wrp op-style">
+                <view class='op-btn' bindtap='newItem' data-index="{{ index }}">
+                  新增
+                  <view class="float-ctl" wx:if="{{ index === newCurIndex }}">
+                    <view class="float-tri"></view>
+                    <view data-type="{{ item.type }}" wx:for="{{ supportType }}" wx:key="{{ index }}" wx:for-index="key" bindtap="triggerEvent" data-index="{{ index }}">
+                      插入{{ item.name }}
+                    </view>
+                  </view>
+                </view>
+                <view class='op-btn' bindtap='moveUp' data-index="{{ index }}" wx:if="{{ index !== 0 }}">上移</view>
+                <view class='op-btn' bindtap='moveDown' data-index="{{ index }}" wx:if="{{ index !== innerInitData.length - 1 }}">下移</view>
+                <view class='op-btn' bindtap='deleteBlock' data-index="{{ index }}">删除</view>
+              </view>
+            </view>
+          </view>
+        </block>
+        <block wx:else>
+          <view class="common-contain video-contain">
+            <view class="white-mask" wx:if="{{ !item.isEditing && globalEditing || (curIndex !== -1 && curIndex !== index) }}"></view>
+            <view class="up-ctx" bindtap='tapEvent' data-index="{{ index }}" data-type="video">
+              <video wx:if="{{ item.src }}" src="{{ item.src }}" style="{{ item.width ? 'width: ' + item.width + 'rpx;' : '' }}{{ item.height ? 'height: ' + item.height + 'rpx;' : '' }}"></video>
+              <image wx:else class="add-video" src='../../assets/icon/addvideo.png'></image>
+            </view>
+            <view class="down-ctx">
+              <input bindinput='changeInput' data-index="{{ index }}" value='{{ item.desc }}' placeholder='请输入视频描述'></input>
+              <view class="op-btn-wrp op-style">
+                <view class='op-btn' bindtap='deleteBlock' data-index="{{ index }}">取消</view>
+                <view class='op-btn' bindtap='saveBlock' data-index="{{ index }}">保存</view>
+              </view>
+            </view>
+          </view>
+        </block>
+        <!-- 编辑中 -->
+      </block>
+    </block>
+  </view>
+  <!-- 主要的控制栏 -->
+  <view class="main-editor-ctl">
+    <view class="editor-ctl-item ctl-style" data-type="{{ item.type }}" wx:for="{{ supportType }}" wx:key="{{ index }}" wx:for-index="key" bindtap="triggerEvent">
+      插入{{ item.name }}
+    </view>
+  </view>
+</view>
+
+<scroll-view class="rich-editor-wrp" wx:else scroll-y style="{{ containHeight ? 'height: ' + containHeight + drawUnit + ';' : '' }}">
+</scroll-view>

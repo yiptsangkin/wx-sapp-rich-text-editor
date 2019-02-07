@@ -1,0 +1,6 @@
+{
+  "navigationBarBackgroundColor": "#81d8cf",
+  "usingComponents": {
+    "rich-editor": "plugin://richeditor/richeditor"
+  }
+}

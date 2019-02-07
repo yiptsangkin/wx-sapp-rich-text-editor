@@ -1,0 +1,18 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/preview/preview"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "backgroundColor": "#F5F5F5",
+    "navigationBarTitleText": "RichEditor",
+    "navigationBarTextStyle": "black"
+  },
+  "plugins": {
+    "richeditor": {
+      "version": "dev",
+      "provider": "wxe65a0c242998f59f"
+    }
+  }
+}

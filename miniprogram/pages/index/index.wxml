@@ -1,0 +1,2 @@
+<rich-editor ctl-style="main-color" init-data="{{ testList }}" op-style="btn-color" support-type="{{ supportType }}" get-object="{{ getObject }}"/>
+<view class="preview" bindtap='preview'>预览</view>

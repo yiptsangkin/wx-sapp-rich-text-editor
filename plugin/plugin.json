@@ -1,0 +1,6 @@
+{
+  "publicComponents": {
+    "richeditor": "components/richeditor/richeditor"
+  },
+  "main": "index.js"
+}

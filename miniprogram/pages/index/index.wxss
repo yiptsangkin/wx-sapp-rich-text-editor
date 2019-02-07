@@ -1,0 +1,27 @@
+/* pages/index/index.wxss */
+
+page{
+  height: 100%;
+  background-color: #f5f5f5;
+  padding-bottom: 48rpx;
+}
+
+.main-color{
+  color: #000;
+}
+
+.btn-color{
+  color: #81d8cf;
+}
+
+.preview{
+  height: 88rpx;
+  text-align: center;
+  color: #fff;
+  background-color: #B4A078;
+  line-height: 88rpx;
+  font-size: 28rpx;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
